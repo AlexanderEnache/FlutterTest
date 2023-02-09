@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1043017147554",
+    "project_id": "safeti-71954",
+    "storage_bucket": "safeti-71954.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043017147554:android:67a035551b0f70b7c063fb",
+        "android_client_info": {
+          "package_name": "com.example.fl_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043017147554-51j4hsfltj1u9khrh0abotb9prnkirnu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_DWCXaqP0oXhF_APOsbQKyvZdHi1fUdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043017147554-51j4hsfltj1u9khrh0abotb9prnkirnu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1043017147554-urq8abql5g52u75u7il66qhtpkh9l658.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
