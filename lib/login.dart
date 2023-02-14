@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:cloud_firestore/cloud_firestore.dart' show CollectionReference, FirebaseFirestore, Query, QuerySnapshot;
 import 'package:fl_test/route_generator.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 // import 'package:flutter/foundation.dart'
 import 'firebase_options.dart';
 
@@ -25,7 +26,12 @@ class _LoginPageState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     print("collection ----- Stream");
-    // print(query);
+
+    Future signIn(email, passsword) async {
+      // print(email + "     " +password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: "email@password.com", password: "password");
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -60,26 +66,31 @@ class _LoginPageState extends State<Login> {
                 child: const Text("Validate"),
                 onPressed: () {
                   if(_formKey.currentState!.validate()){
-                    final Future<QuerySnapshot<Map<String, dynamic>>> query = 
-                    FirebaseFirestore.instance.collection('users').
-                    where("email", isEqualTo: "email@email.com").get().
-                    then(
-                      (res) {
-                        print("Successfully completed"); 
-                        print( res.docs.first.data()['email']);
-                        
-                       
 
+                    signIn(email.trim(), password.trim());
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Great'))
-                        );
+                    // final Future<QuerySnapshot<Map<String, dynamic>>> query = 
+                    // FirebaseFirestore.instance.collection('users').
+                    // where("email", isEqualTo: email).
+                    // where("password", isEqualTo: password).get().
+                    // then(
+                    //   (res) {
+                    //     if(res.docs.isEmpty){
+                    //       res.docs.first.data()['email'];
+                    //       ScaffoldMessenger.of(context).showSnackBar(
+                    //         const SnackBar(content: Text('Great'))
+                    //       );
 
-                        return res;
-                      },
-                      onError: (e) => print("Error completing: $e"),
-                    );
-
+                    //       return res;
+                    //     }else{
+                    //       ScaffoldMessenger.of(context).showSnackBar(
+                    //         const SnackBar(content: Text('User not found'))
+                    //       );
+                    //       throw "not found";
+                    //     }
+                    //   },
+                    //   onError: (e) => print("Error completing: $e"),
+                    // );
                     // ScaffoldMessenger.of(context).showSnackBar(
                     //   const SnackBar(content: Text('Great'))
                     // );

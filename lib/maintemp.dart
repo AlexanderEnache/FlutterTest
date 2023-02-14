@@ -1,3 +1,5 @@
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_test/route_generator.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +8,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' show CollectionReference, FirebaseFirestore;
 import 'home.dart' show Home;
-// import 'maintemp.dart' show Home;
-import 'login.dart' show Login;
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,16 +17,19 @@ Future<void> main() async {
   runApp(
     // TemporaryMainPage()
 
-    MaterialApp(
-      home: TemporaryMainPage()
+
+    const MaterialApp(
+      home: Home(title: "This is the title"),
+      onGenerateRoute: RouteGenerator.generateRoute,
+      // routes: {
+      //   '/user_home_page' : (context) => const UserHomePage(title: "This is the title"),
+      // }
     )
   );
 }
 
 class MyApp extends StatelessWidget {
-
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
-
   MyApp({super.key});
 
   // This widget is the root of your application.
@@ -64,10 +66,10 @@ class TemporaryMainPage extends StatelessWidget{
     body: StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot){
-        if(!snapshot.hasData){
-          return const Login(title: "Here we are");
+        if(snapshot.hasData){
+          return Text("Logged in");
         }else{
-          return const Home(title: "Logged Out");
+          return Text("Logged Out");
         }
       }
 
