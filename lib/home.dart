@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fl_test/route_generator.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' show CollectionReference, FirebaseFirestore;
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -23,7 +19,7 @@ class _HomePageState extends State<Home> {
       body: Column(
         children: <Widget>[
           TextButton(onPressed: (){
-            Navigator.of(context).pushNamed('/login');
+            FirebaseAuth.instance.signOut();
           }, child: const Text("Login"))
           // Add TextFormFields and ElevatedButton here.
         ],

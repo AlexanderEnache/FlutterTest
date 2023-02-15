@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
-import 'package:cloud_firestore/cloud_firestore.dart' show CollectionReference, FirebaseFirestore, Query, QuerySnapshot;
-import 'package:fl_test/route_generator.dart';
-import 'package:flutter/material.dart';
-// import 'package:flutter/foundation.dart'
-import 'firebase_options.dart';
-
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, FirebaseAuthException;
 
 class Login extends StatefulWidget {
   const Login({super.key, required this.title});
@@ -18,18 +11,26 @@ class Login extends StatefulWidget {
 
 class _LoginPageState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
-  // final query = FirebaseFirestore.instance.collection('users').where("state", isEqualTo: "CA").get();
-
   var password = '';
   var email = '';
 
   @override
   Widget build(BuildContext context) {
-    print("collection ----- Stream");
-
     Future signIn(email, passsword) async {
-      // print(email + "     " +password);
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: "email@password.com", password: "password");
+      showDialog(
+        context: context, 
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator())
+      );
+
+      try{
+        await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      } on FirebaseAuthException catch(e){
+        print(e);
+      }
+
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
     }
 
     return Scaffold(
@@ -66,62 +67,13 @@ class _LoginPageState extends State<Login> {
                 child: const Text("Validate"),
                 onPressed: () {
                   if(_formKey.currentState!.validate()){
-
                     signIn(email.trim(), password.trim());
-
-                    // final Future<QuerySnapshot<Map<String, dynamic>>> query = 
-                    // FirebaseFirestore.instance.collection('users').
-                    // where("email", isEqualTo: email).
-                    // where("password", isEqualTo: password).get().
-                    // then(
-                    //   (res) {
-                    //     if(res.docs.isEmpty){
-                    //       res.docs.first.data()['email'];
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //         const SnackBar(content: Text('Great'))
-                    //       );
-
-                    //       return res;
-                    //     }else{
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //         const SnackBar(content: Text('User not found'))
-                    //       );
-                    //       throw "not found";
-                    //     }
-                    //   },
-                    //   onError: (e) => print("Error completing: $e"),
-                    // );
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   const SnackBar(content: Text('Great'))
-                    // );
                   }
                 },
               ),
             Container(
               child: const Text('Answer')
             ),
-
-            // Container(
-            //   height: 250,
-            //   padding: const EdgeInsets.symmetric(vertical: 20),
-            //   child: StreamBuilder(
-            //     stream: collectionStream,
-            //     builder: (BuildContext context, AsyncSnapshot snapshot){
-            //       if(snapshot.hasError){
-            //         print(snapshot.error);
-            //       }else if(snapshot.connectionState == ConnectionState.waiting){
-            //         return Text("Loading!!!");
-            //       }
-            //       final snap = snapshot.requireData;
-            //       return ListView.builder(
-            //         itemCount: snap.size,
-            //         itemBuilder: (context, index){
-            //           return Text("Hy my email is ${snap.docs[index]['email']}");
-            //         }
-            //       );
-            //     }
-            //   )
-            // ),
           ],
         ),
       )
