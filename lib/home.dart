@@ -21,7 +21,6 @@ class _HomePageState extends State<Home> {
           TextButton(onPressed: (){
             FirebaseAuth.instance.signOut();
           }, child: const Text("Login"))
-          // Add TextFormFields and ElevatedButton here.
         ],
       ),
     );
