@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_test/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' show CollectionReference, FirebaseFirestore;
 import 'home.dart' show Home;
 import 'login.dart' show Login;
 
@@ -34,12 +34,20 @@ class TemporaryMainPage extends StatelessWidget{
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot){
         if(!snapshot.hasData){
-          return const Login(title: "Here we are");
+          return const Login(title: "in main.dart");
+          // return MaterialApp(
+          //   title: 'Flutter Demo',
+          //   theme: ThemeData(
+          //     primarySwatch: Colors.blue,
+          //   ),
+          //   initialRoute: '/login',
+          //   onGenerateRoute: RouteGenerator.generateRoute,
+          //   // home: const Login(title: "in main.dart"),
+          // ); 
         }else{
           return const Home(title: "Logged Out");
         }
       }
-
     )
   );
 }

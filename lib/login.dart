@@ -1,5 +1,7 @@
+// import 'package:fl_test/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, FirebaseAuthException;
+
 
 class Login extends StatefulWidget {
   const Login({super.key, required this.title});
@@ -11,11 +13,14 @@ class Login extends StatefulWidget {
 
 class _LoginPageState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
+  // final query = FirebaseFirestore.instance.collection('users').where("state", isEqualTo: "CA").get();
+
   var password = '';
   var email = '';
 
   @override
   Widget build(BuildContext context) {
+
     Future signIn(email, passsword) async {
       showDialog(
         context: context, 
