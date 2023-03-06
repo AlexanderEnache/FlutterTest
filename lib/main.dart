@@ -35,15 +35,6 @@ class TemporaryMainPage extends StatelessWidget{
       builder: (context, snapshot){
         if(!snapshot.hasData){
           return const Login(title: "in main.dart");
-          // return MaterialApp(
-          //   title: 'Flutter Demo',
-          //   theme: ThemeData(
-          //     primarySwatch: Colors.blue,
-          //   ),
-          //   initialRoute: '/login',
-          //   onGenerateRoute: RouteGenerator.generateRoute,
-          //   // home: const Login(title: "in main.dart"),
-          // ); 
         }else{
           return const Home(title: "Logged Out");
         }

@@ -13,14 +13,12 @@ class Login extends StatefulWidget {
 
 class _LoginPageState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
-  // final query = FirebaseFirestore.instance.collection('users').where("state", isEqualTo: "CA").get();
 
   var password = '';
   var email = '';
 
   @override
   Widget build(BuildContext context) {
-
     Future signIn(email, passsword) async {
       showDialog(
         context: context, 
