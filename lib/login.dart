@@ -1,7 +1,5 @@
-// import 'package:fl_test/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, FirebaseAuthException;
-
 
 class Login extends StatefulWidget {
   const Login({super.key, required this.title});
@@ -27,13 +25,12 @@ class _LoginPageState extends State<Login> {
       );
 
       try{
-        await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+        await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value) {
+          Navigator.pop(context);
+        });
       } on FirebaseAuthException catch(e){
         print(e);
       }
-
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
     }
 
     return Scaffold(

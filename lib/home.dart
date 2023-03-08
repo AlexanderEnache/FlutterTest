@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
 import 'package:http/http.dart' as http;
 import 'ItemUPC.dart' show ItemUPC;
 import 'askItemLocation.dart' show AskItemLocation;
+import 'foodList.dart' show FoodList;
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 
 class HomeRoute extends StatelessWidget {
@@ -31,17 +32,6 @@ class _HomePageState extends State<Home> {
   final db = FirebaseFirestore.instance;
   ItemUPC upc = ItemUPC();
 
-  _scan() async {
-    await FlutterBarcodeScanner.scanBarcode("#000000", "Cancel", false, ScanMode.BARCODE)
-      .then((value) async{
-        setState(()=>qrCode = value);
-        
-        upc.getUPC(qrCode).then((value) {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AskItemLocation(itemName: value, upc: qrCode)));
-        });
-    });
-  }
-
   Future<dynamic> searchUPC() async{
     var url = Uri.parse('https://trackapi.nutritionix.com/v2/search/item?x-app-id=319c0339&x-app-key=f86cb82b0bdbc3decd5168012b49f746&upc=8901161124463');
     var response = await http.get(url);
@@ -51,6 +41,15 @@ class _HomePageState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    _scan() async {
+      await FlutterBarcodeScanner.scanBarcode("#000000", "Cancel", false, ScanMode.BARCODE)
+      .then((value) async{
+        setState(()=>qrCode = value);
+        upc.getUPC(qrCode).then((value) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AskItemLocation(itemName: value, upc: qrCode)));
+        });
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -76,14 +75,17 @@ class _HomePageState extends State<Home> {
           ],
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          TextButton(onPressed: () async =>setState(()=>qrCode = _scan()), child: const Text("Scan")),
-          TextButton(onPressed: (){
-            FirebaseAuth.instance.signOut();
-          }, child: const Text("Log Out"))
-        ],
-      ),
+      body: const FoodList()
+      // Column(
+      //   children: <Widget>[
+      //     // TextButton(onPressed: () => _scan(), child: const Text("Scan")),
+      //     // TextButton(onPressed: (){
+      //     //   FirebaseAuth.instance.signOut();
+      //     // }, child: const Text("Log Out")),
+      //     ListTest()
+      //   ],
+      // ),
     );
   }
 }
+
