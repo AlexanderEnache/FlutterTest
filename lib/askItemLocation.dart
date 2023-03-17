@@ -39,7 +39,9 @@ class _AskItemLocationState extends State<AskItemLocation> {
       var item = <String, String>{
         "name": widget.itemName,
         "location": location,
-        "upc": widget.upc
+        "upc": widget.upc,
+        "amount": "2",
+        "amount_unit": "units"
       };
 
       try{

@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -35,7 +36,7 @@ class TemporaryMainPage extends StatelessWidget{
         if(!snapshot.hasData){
           return const Login(title: "in main.dart");
         }else{
-          return const Home(title: "Logged Out");
+          return const Home(title: "Add Items to Fridge");
         }
       }
     )

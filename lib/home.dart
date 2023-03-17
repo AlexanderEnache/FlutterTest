@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'ItemUPC.dart' show ItemUPC;
 import 'askItemLocation.dart' show AskItemLocation;
 import 'foodList.dart' show FoodList;
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 
 class HomeRoute extends StatelessWidget {
   const HomeRoute({super.key, required this.title});
@@ -14,6 +13,7 @@ class HomeRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Home(key: key, title: "Home")
     );
   }
@@ -30,7 +30,7 @@ class Home extends StatefulWidget {
 class _HomePageState extends State<Home> {
   String qrCode = "default";
   final db = FirebaseFirestore.instance;
-  ItemUPC upc = ItemUPC();
+  static const IconData qr_code_scanner_rounded = IconData(0xf00cc, fontFamily: 'MaterialIcons');
 
   Future<dynamic> searchUPC() async{
     var url = Uri.parse('https://trackapi.nutritionix.com/v2/search/item?x-app-id=319c0339&x-app-key=f86cb82b0bdbc3decd5168012b49f746&upc=8901161124463');
@@ -45,7 +45,9 @@ class _HomePageState extends State<Home> {
       await FlutterBarcodeScanner.scanBarcode("#000000", "Cancel", false, ScanMode.BARCODE)
       .then((value) async{
         setState(()=>qrCode = value);
-        upc.getUPC(qrCode).then((value) {
+        ItemUPC.getUPC(qrCode).then((value) {
+          print(qrCode);
+          print(value);
           Navigator.push(context, MaterialPageRoute(builder: (context) => AskItemLocation(itemName: value, upc: qrCode)));
         });
       });
@@ -58,6 +60,12 @@ class _HomePageState extends State<Home> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
             ListTile(
               title: const Text('Item 1'),
               onTap: () {
@@ -75,16 +83,31 @@ class _HomePageState extends State<Home> {
           ],
         ),
       ),
-      body: const FoodList()
-      // Column(
-      //   children: <Widget>[
-      //     // TextButton(onPressed: () => _scan(), child: const Text("Scan")),
-      //     // TextButton(onPressed: (){
-      //     //   FirebaseAuth.instance.signOut();
-      //     // }, child: const Text("Log Out")),
-      //     ListTest()
-      //   ],
-      // ),
+      body: Center(
+        child: 
+        Column(
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.all(18.0),
+              child: Text('Press to Scan')
+            ),
+            SizedBox( 
+              height:100, //height of button
+              width:100, //width of button
+              child:  ElevatedButton(
+                onPressed: () => _scan(), child: const Icon(qr_code_scanner_rounded)
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(20.0)
+            ),
+            const FoodList()
+            // TextButton(onPressed: (){
+            //   FirebaseAuth.instance.signOut();
+            // }, child: const Text("Log Out")),
+          ],
+        ),
+      )
     );
   }
 }
