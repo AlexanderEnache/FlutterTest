@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
 import 'ItemUPC.dart' show ItemUPC;
+import 'foodImage.dart' show FoodImage;
 
 class FoodItem extends StatefulWidget {
   const FoodItem({super.key, required this.upc});
@@ -35,20 +36,14 @@ class _FoodItemState extends State<FoodItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(itemName),
+      ),
       body:
         Center(child: 
           Column(children:
             <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 70, bottom: 40),
-                child: Text(itemName, style: TextStyle(fontSize: 22)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 0, bottom: 30, left: 30, right: 30),
-                child:Image(
-                  image: NetworkImage(photoLink),
-                ),
-              ),
+              FoodImage(photoLink: photoLink),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
