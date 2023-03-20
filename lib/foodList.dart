@@ -5,8 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'foodItem.dart' show FoodItem;
 
 class FoodList extends StatefulWidget {
-  const FoodList({super.key});
+  final String? title;
 
+  const FoodList({super.key, this.title});
   @override
   State<FoodList> createState() => _FoodListState();
 }
@@ -21,6 +22,7 @@ class _FoodListState extends State<FoodList> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    String? title = (widget.title ?? "");
     return SizedBox(
       height: 350,
       child: Padding(
@@ -29,9 +31,12 @@ class _FoodListState extends State<FoodList> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(18.0),
-              child: Text('Last Scans')
+            Visibility(
+              visible: (title == "" ? false : true),
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Text(title)
+              ),
             ),
             Container(
               height: 230,

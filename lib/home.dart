@@ -1,3 +1,4 @@
+import 'package:fl_test/fridgePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
@@ -67,17 +68,12 @@ class _HomePageState extends State<Home> {
               child: Text('Drawer Header'),
             ),
             ListTile(
-              title: const Text('Item 1'),
+              title: const Text('fridge'),
               onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FridgePage()),
+                );
               },
             ),
           ],
@@ -101,10 +97,7 @@ class _HomePageState extends State<Home> {
             const Padding(
               padding: EdgeInsets.all(20.0)
             ),
-            const FoodList()
-            // TextButton(onPressed: (){
-            //   FirebaseAuth.instance.signOut();
-            // }, child: const Text("Log Out")),
+            const FoodList(title: "Last Scans")
           ],
         ),
       )
